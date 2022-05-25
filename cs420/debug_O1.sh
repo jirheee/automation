@@ -88,7 +88,6 @@ run_folder()
 }
 
 #run_opt examples/ir0/simple.ir test_output.ir simplify-cfg
-rm -r logs/*
 run_folder examples/ir0
 
 
