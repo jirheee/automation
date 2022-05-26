@@ -81,13 +81,28 @@ run_folder()
     basename=$(basename -- $file)
     mkdir -p "$output_dir/$basename/trial_0"
     cp $file "$output_dir/$basename/trial_0/deadcode.ir"
-    #echo "optimize $basename until convergence"
     RETURN=$(opt_until_converge $output_dir $basename)
     echo -e $RETURN
   done
 }
 
-#run_opt examples/ir0/simple.ir test_output.ir simplify-cfg
-run_folder examples/ir0
+run_one()
+{
+  basename=$1
+  output_dir="logs/out"
+  mkdir -p "$output_dir/$basename/trial_0"
+  cp "examples/ir0/$basename" "$output_dir/$basename/trial_0/deadcode.ir"
+
+  opt_until_converge $output_dir $basename
+}
+
+
+while getopts "i:a" opt
+do
+   case "$opt" in
+      i) run_one "$OPTARG";;
+      a) run_folder examples/ir0;;
+   esac
+done
 
 
