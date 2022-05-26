@@ -96,13 +96,25 @@ run_one()
   opt_until_converge $output_dir $basename
 }
 
+help_prompt()
+{
+   echo "Usage: $0"
+   echo -e "\t-a run -O1 for all ir files in examples/ir0"
+   echo -e "\t-i run -O1 for given input\tex) -i simple.ir"
+   exit 1 # Exit script after printing help
+}
 
-while getopts "i:a" opt
+while getopts "i:ah" opt
 do
    case "$opt" in
       i) run_one "$OPTARG";;
       a) run_folder examples/ir0;;
+      ?) help_prompt;;
    esac
 done
 
+if (( $OPTIND == 1 )); then
+  echo "$0: No arguments passed"
+  help_prompt
+fi
 
